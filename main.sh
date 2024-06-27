@@ -1,15 +1,15 @@
 #!/bin/bash
 # yahh yang pake windows g bisa ya? install wsl dlu dek
 
-send_request() {
-    local input_text=$1
+sendRequest() {
+    local inputText=$1
     response=$(curl -s -X POST "https://api.simsimi.vn/v1/simtalk" \
         -H "Content-Type: application/x-www-form-urlencoded" \
-        -d "text=${input_text}&lc=id")
+        -d "text=${inputText}&lc=id")
     echo $response
 }
 
-parse_response() {
+parseResponse() {
     local response=$1
     message=$(echo $response | jq -r '.message')
     echo $message
@@ -17,14 +17,14 @@ parse_response() {
 
 while true; do
     echo -n "you>: "
-    read input_text
+    read inputText
 
-    if [[ "$input_text" == "exit" || "$input_text" == "quit" || "$input_text" == "keluar" || "$input_text" == "murtad" ]]; then
+    if [[ "$inputText" == "exit" || "$inputText" == "quit" || "$inputText" == "keluar" || "$inputText" == "murtad" ]]; then
         echo "yahh logout deh :( ..."
         break
     fi
     
-    response=$(send_request "$input_text")
-    message=$(parse_response "$response")
+    response=$(sendRequest "$inputText")
+    message=$(parseResponse "$response")
     echo "bot>: $message"
 done
